@@ -48,12 +48,17 @@ export class CardController {
   @Throttle({ default: { limit: 10, ttl: minutes(10) } })
   async shuffle(
     @RequestHeaders(
+      X_DISCORD_USER_ID,
+      new ValidationPipe({ validateCustomDecorators: true }),
+    )
+    userId: string,
+    @RequestHeaders(
       X_DISCORD_TOKEN_ID,
       new ValidationPipe({ validateCustomDecorators: true }),
     )
     token: string,
   ): Promise<CardDTO> {
-    return this.cardService.shuffle(token);
+    return this.cardService.shuffle(userId, token);
   }
 
   @Post()

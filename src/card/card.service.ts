@@ -6,6 +6,10 @@ import { Prisma } from '@prisma/client';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { NoContentException } from 'src/shared/exceptions/no-content.excetion';
+import {
+  SHUFFLE_USER_CARD_PREFIX,
+  SHUFFLE_USER_CONTROL_PREFIX,
+} from 'src/shared/consts/redis';
 
 @Injectable()
 export class CardService {
@@ -41,11 +45,13 @@ export class CardService {
     }
   }
 
-  async shuffle(token: string): Promise<CardDTO> {
-    const exclude = await this.cacheService.store.keys('shuffle:*');
+  async shuffle(userId: string, token: string): Promise<CardDTO> {
+    const exclude = await this.cacheService.store.keys(
+      `${SHUFFLE_USER_CARD_PREFIX}:*`,
+    );
     const excludeIds =
       exclude
-        .map((key) => Number(key.replace('shuffle:', '')))
+        .map((key) => Number(key.replace(`${SHUFFLE_USER_CARD_PREFIX}:`, '')))
         .filter((id) => !isNaN(id)) ?? [];
 
     const card = await this.prisma.card.findFirst({
@@ -65,9 +71,14 @@ export class CardService {
       },
     });
 
-    if (!card) throw new NoContentException();
+    if (!card) {
+      const key = `${SHUFFLE_USER_CONTROL_PREFIX}:${userId}`;
+      const value = await this.cacheService.get<number>(key);
+      await this.cacheService.set(key, (value || 0) - 1);
+      throw new NoContentException();
+    }
 
-    await this.cacheService.set(`shuffle:${card.id}`, '', {
+    await this.cacheService.set(`${SHUFFLE_USER_CARD_PREFIX}:${card.id}`, '', {
       ttl: 10 * 60,
     } as any);
 
