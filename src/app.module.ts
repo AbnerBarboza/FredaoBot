@@ -11,6 +11,7 @@ import { DiscordGuard } from './config/guard/discord/discord.guard';
 import { configuration } from './config/env/configuration';
 import { validationSchema } from './config/env/validations';
 import { AppController } from './app.controller';
+import { MarriagesModule } from './marriage/marriage.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { AppController } from './app.controller';
         ),
       }),
     }),
+    MarriagesModule,
   ],
   controllers: [AppController],
   providers: [

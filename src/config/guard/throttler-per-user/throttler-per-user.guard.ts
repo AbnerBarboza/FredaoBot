@@ -17,6 +17,7 @@ export class ThrottlerPerUserGuard extends ThrottlerGuard {
     suffix: string,
     name: string,
   ): string {
-    return `${SHUFFLE_USER_CONTROL_PREFIX}:${suffix}`;
+    const url = context.switchToHttp().getRequest().url;
+    return `${SHUFFLE_USER_CONTROL_PREFIX}:${url}:${suffix}`;
   }
 }

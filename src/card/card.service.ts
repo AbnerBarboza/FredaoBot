@@ -72,9 +72,10 @@ export class CardService {
     });
 
     if (!card) {
-      const key = `${SHUFFLE_USER_CONTROL_PREFIX}:${userId}`;
+      const key = `${SHUFFLE_USER_CONTROL_PREFIX}:/cards/shuffle:${userId}`;
       const value = await this.cacheService.get<number>(key);
-      await this.cacheService.set(key, (value || 0) - 1);
+      const ttl = await this.cacheService.store.ttl(key);
+      await this.cacheService.set(key, (value || 0) - 1, { ttl } as any);
       throw new NoContentException();
     }
 

@@ -23,9 +23,13 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { X_DISCORD_USER_ID } from 'src/shared/consts/security-headers';
+import {
+  X_DISCORD_CHANNEL_ID,
+  X_DISCORD_USER_ID,
+} from 'src/shared/consts/security-headers';
 import { X_DISCORD_TOKEN_ID } from 'src/shared/consts/headers';
 import { RequestHeaders } from 'src/shared/decorators/request-headers.decorator';
+import { CreateMarryCMD } from './cmd/create-marry.cmd';
 
 @ApiTags('Cards')
 @Controller('cards')
