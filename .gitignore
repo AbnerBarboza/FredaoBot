@@ -49,3 +49,4 @@ out/
 ## LocalStack
 **/localstack/volume/
 **/localstack/data/
+**/redis-data/
