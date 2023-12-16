@@ -1,7 +1,6 @@
 version: "3.9"
 services:
   redis:
-    container_name: redis-stack
     image: 'redis/redis-stack:latest'
     restart: unless-stopped
     #command: ["redis-server", "/etc/redis/redis.conf"]

@@ -17,8 +17,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const s3Client = new S3Client({
-          region: configService.getOrThrow<string>('AWS_REGION'),
-          endpoint: configService.get('S3_ENDPOINT'),
+          region: configService.getOrThrow<string>('aws.region'),
+          endpoint: configService.get('aws.endpoint'),
           credentials: {
             accessKeyId: configService.getOrThrow<string>('AWS_ACCESS_KEY_ID'),
             secretAccessKey: configService.getOrThrow<string>(
