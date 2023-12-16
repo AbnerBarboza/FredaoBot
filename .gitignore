@@ -33,3 +33,25 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Environment Variables
+.env.prod
+!.env.dev
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+## LocalStack
+**/localstack/volume/
+**/localstack/data/
+**/redis-data/
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
