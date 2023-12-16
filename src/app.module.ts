@@ -10,6 +10,7 @@ import { ThrottlerPerUserGuard } from './config/guard/throttler-per-user/throttl
 import { DiscordGuard } from './config/guard/discord/discord.guard';
 import { configuration } from './config/env/configuration';
 import { validationSchema } from './config/env/validations';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -38,7 +39,7 @@ import { validationSchema } from './config/env/validations';
       }),
     }),
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,
