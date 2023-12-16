@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  redis:
+    container_name: redis-stack
+    image: 'redis/redis-stack:latest'
+    restart: unless-stopped
+    #command: ["redis-server", "/etc/redis/redis.conf"]
+    environment:
+      REDIS_ARGS: "--requirepass root"
+    volumes:
+      - ./redis-data:/data
+      #- ./conf/users.acl:/etc/redis/users.acl:z
+      #- ./conf/redis.conf:/etc/redis/redis.conf:z
+    ports:
+      - "6379:6379" #redis-server
+      - "8001:8001" #RedisInsight
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - SERVICES=s3
+      - DEBUG=${DEBUG-0}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=sa-east-1
+      - AWS_DEFAULT_OUTPUT=json
+      - AWS_SECRET_ACCESS_KEY="noop"
+      - AWS_ACCESS_KEY_ID="noop"
+      - FREDAO_BUCKET=fredao-bucket
+    volumes:
+      - "./localstack/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - "${LOCALSTACK_VOLUME_DIR:-./localstack/volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: fredao-bot
+      POSTGRES_USER: fredao-bot
+      POSTGRES_DB: fredao-bot
+    ports:
+      - "5432:5432"
