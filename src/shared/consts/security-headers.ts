@@ -1,4 +1,4 @@
 const X_DISCORD_USER_ID = 'X-Discord-User-ID';
-const X_DISCORD_USER_ID_LOWER_CASE = 'x-discord-user-id';
+const X_DISCORD_CHANNEL_ID = 'X-Discord-Channel-ID';
 
-export { X_DISCORD_USER_ID, X_DISCORD_USER_ID_LOWER_CASE };
+export { X_DISCORD_USER_ID, X_DISCORD_CHANNEL_ID };

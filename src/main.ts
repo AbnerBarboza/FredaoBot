@@ -7,7 +7,11 @@ import { X_DISCORD_USER_ID } from './shared/consts/security-headers';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      validateCustomDecorators: true,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Fredão Bot API')

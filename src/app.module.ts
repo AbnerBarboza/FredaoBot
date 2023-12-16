@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CardModule } from 'src/card/card.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from './config/cache/cache.module';
@@ -40,9 +38,8 @@ import { validationSchema } from './config/env/validations';
       }),
     }),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerPerUserGuard,

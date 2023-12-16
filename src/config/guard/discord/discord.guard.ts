@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import {
+  X_DISCORD_CHANNEL_ID,
   X_DISCORD_USER_ID,
-  X_DISCORD_USER_ID_LOWER_CASE,
 } from 'src/shared/consts/security-headers';
 
 @Injectable()
@@ -19,14 +19,17 @@ export class DiscordGuard implements CanActivate {
       context.getHandler(),
     );
 
+    const req = context.switchToHttp().getRequest();
+
     if (isPublic) {
       return Promise.resolve(true);
     }
 
-    const req = context.switchToHttp().getRequest();
     return (
-      req.headers[X_DISCORD_USER_ID] ||
-      req.headers[X_DISCORD_USER_ID_LOWER_CASE]
+      (req.headers[X_DISCORD_USER_ID] ||
+        req.headers[X_DISCORD_USER_ID.toLocaleLowerCase()]) &&
+      (req.headers[X_DISCORD_CHANNEL_ID] ||
+        req.headers[X_DISCORD_CHANNEL_ID.toLocaleLowerCase()])
     );
   }
 }

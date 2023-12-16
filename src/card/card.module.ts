@@ -7,10 +7,11 @@ import { S3Client } from '@aws-sdk/client-s3';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Module({
   controllers: [CardController],
-  providers: [CardService],
+  providers: [CardService, PrismaService],
   imports: [
     MulterModule.registerAsync({
       imports: [ConfigModule],

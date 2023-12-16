@@ -51,3 +51,7 @@ out/
 **/localstack/volume/
 **/localstack/data/
 **/redis-data/
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
